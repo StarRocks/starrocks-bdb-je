@@ -43,7 +43,7 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.starrocks</groupId>
     <artifactId>starrocks-bdb-je</artifactId>
-    <version>7.5.16</version>
+    <version>7.5.17</version>
     <build>
         <plugins>
             <plugin>

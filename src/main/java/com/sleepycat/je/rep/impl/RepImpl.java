@@ -2300,4 +2300,9 @@ public class RepImpl
     public StreamAuthenticator getAuthenticator() {
         return authenticator;
     }
+
+    @Override
+    public void setReplicaLatestVLSNSeq(long seq) {
+        vlsnIndex.setReplicaLatestVLSNSeq(seq);
+    }
 }
