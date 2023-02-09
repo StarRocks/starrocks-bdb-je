@@ -341,6 +341,10 @@ public class InsufficientLogException extends RestartRequiredException {
         return repImpl;
     }
 
+    public void setRepImpl(RepImpl repImpl) {
+        this.repImpl = repImpl;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
