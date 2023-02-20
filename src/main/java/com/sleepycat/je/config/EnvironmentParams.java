@@ -87,7 +87,7 @@ public class EnvironmentParams {
         new LongConfigParam(EnvironmentConfig.RESERVED_DISK,
             0L,             // min
             null,           // max
-            0L,             // default
+            536870912L,     // default
             true,           // mutable
             false);         // forReplication
 
