@@ -360,6 +360,11 @@ public class VLSNIndex {
     private AtomicLong nextVLSNCounter;
 
     /*
+     * For replica node to record the latest vlsn seq copied from master
+     */
+    private volatile long replicaLatestVLSNSeq = VLSN.NULL_VLSN_SEQUENCE;
+
+    /*
      * For storing the persistent version of the VLSNIndex. For keys > 0,
      * the key is the VLSN sequence number, data = VLSNBucket. Key = -1 has
      * a special data item, which is the VLSNRange.
@@ -457,6 +462,8 @@ public class VLSNIndex {
         } else {
             nextVLSNCounter = new AtomicLong(last.getSequence());
         }
+
+        replicaLatestVLSNSeq = VLSN.NULL_VLSN_SEQUENCE;
     }
 
     /**
@@ -476,6 +483,7 @@ public class VLSNIndex {
 
         putWaitVLSN = null;
         nextVLSNCounter = null;
+        replicaLatestVLSNSeq = VLSN.UNINITIALIZED_VLSN_SEQUENCE;
     }
 
     /*
@@ -487,7 +495,15 @@ public class VLSNIndex {
     }
 
     public long getLatestAllocatedVal() {
-        return nextVLSNCounter.get();
+        if (nextVLSNCounter != null) {
+            return nextVLSNCounter.get();
+        } else {
+            return replicaLatestVLSNSeq;
+        }
+    }
+
+    public void setReplicaLatestVLSNSeq(long seq) {
+        replicaLatestVLSNSeq = seq;
     }
 
     /*
@@ -2137,7 +2153,7 @@ public class VLSNIndex {
     public void awaitConsistency() {
 
         /* VLSNIndex is not initialized and in use yet, no need to wait. */
-        if (nextVLSNCounter == null) {
+        if (nextVLSNCounter == null && replicaLatestVLSNSeq == VLSN.NULL_VLSN_SEQUENCE) {
             return;
         }
 
