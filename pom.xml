@@ -17,7 +17,7 @@ limitations under the License.
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <name>starrocks-bdb-je</name>
     <description>starrocks managed bdb je</description>
-    <url>https://github.com/StarRocks/bdb-je</url>
+    <url>https://github.com/StarRocks/starrocks-bdb-je</url>
 
     <licenses>
         <license>
@@ -43,7 +43,7 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.starrocks</groupId>
     <artifactId>starrocks-bdb-je</artifactId>
-    <version>18.3.13</version>
+    <version>18.3.14</version>
     <build>
         <plugins>
             <plugin>
@@ -160,17 +160,17 @@ limitations under the License.
         <dependency>
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
-            <version>1.10.12</version>
+            <version>1.10.14</version>
         </dependency>
         <dependency>
             <groupId>org.checkerframework</groupId>
             <artifactId>checker</artifactId>
-            <version>3.22.2</version>
+            <version>3.37.0</version>
         </dependency>
         <dependency>
             <groupId>org.checkerframework</groupId>
             <artifactId>checker-qual</artifactId>
-            <version>3.22.2</version>
+            <version>3.37.0</version>
         </dependency>
     </dependencies>
 </project>
