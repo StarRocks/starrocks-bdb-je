@@ -284,7 +284,7 @@ public class LatencyPercentile
 
         /* Record this latency. */
         final int bucket =
-            Math.min((int) latencyMillis, maxTrackedLatencyMillis);
+            Math.min(Math.max(0, (int) latencyMillis), maxTrackedLatencyMillis);
         values.histogram.incrementAndGet(bucket);
 
         /* Update the count last */
