@@ -17,6 +17,7 @@ import static com.sleepycat.je.log.LogEntryType.LOG_TXN_COMMIT;
 import static com.sleepycat.je.rep.arbiter.impl.ArbiterStatDefinition.ARB_MASTER;
 import static com.sleepycat.je.rep.arbiter.impl.ArbiterStatDefinition.ARB_N_ACKS;
 import static com.sleepycat.je.rep.arbiter.impl.ArbiterStatDefinition.ARB_N_REPLAY_QUEUE_OVERFLOW;
+import static com.sleepycat.je.rep.impl.RepParams.BIND_INADDR_ANY;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -545,7 +546,8 @@ class ArbiterAcker {
                 repImpl.getChannelFactory().
                 connect(arbiterImpl.getMasterStatus().getNodeMaster(),
                         repImpl.getHostAddress(),
-                        repImpl.getFeederConnectOptions());
+                        repImpl.getFeederConnectOptions().
+                                setBindAnyLocalAddr(repImpl.getConfigManager().getBoolean(BIND_INADDR_ANY)));
 
             arbiterFeederChannel =
                 new NamedChannelWithTimeout(repImpl,

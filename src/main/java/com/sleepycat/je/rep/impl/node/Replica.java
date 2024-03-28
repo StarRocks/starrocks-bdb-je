@@ -13,6 +13,7 @@
 
 package com.sleepycat.je.rep.impl.node;
 
+import static com.sleepycat.je.rep.impl.RepParams.BIND_INADDR_ANY;
 import static com.sleepycat.je.rep.impl.node.ReplicaStatDefinition.N_LAG_CONSISTENCY_WAITS;
 import static com.sleepycat.je.rep.impl.node.ReplicaStatDefinition.N_LAG_CONSISTENCY_WAIT_MS;
 import static com.sleepycat.je.rep.impl.node.ReplicaStatDefinition.N_VLSN_CONSISTENCY_WAITS;
@@ -1039,7 +1040,8 @@ public class Replica {
                 repImpl.getChannelFactory().
                 connect(repNode.getMasterStatus().getNodeMaster(),
                         repImpl.getHostAddress(),
-                        repImpl.getFeederConnectOptions());
+                        repImpl.getFeederConnectOptions().
+                                setBindAnyLocalAddr(repImpl.getConfigManager().getBoolean(BIND_INADDR_ANY)));
 
             replicaFeederChannel =
                 new NamedChannelWithTimeout(repNode, dataChannel, timeoutMs);

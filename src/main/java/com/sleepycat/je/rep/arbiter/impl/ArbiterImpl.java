@@ -14,6 +14,7 @@
 package com.sleepycat.je.rep.arbiter.impl;
 
 import static com.sleepycat.je.rep.arbiter.impl.ArbiterStatDefinition.ARB_STATE;
+import static com.sleepycat.je.rep.impl.RepParams.BIND_INADDR_ANY;
 
 import java.io.File;
 import java.io.IOException;
@@ -672,7 +673,8 @@ public class ArbiterImpl extends StoppableThread {
                         new ConnectOptions().
                         setTcpNoDelay(true).
                         setOpenTimeout(5000).
-                        setReadTimeout(5000));
+                        setReadTimeout(5000).
+                        setBindAnyLocalAddr(repImpl.getConfigManager().getBoolean(BIND_INADDR_ANY)));
             ServiceDispatcher.doServiceHandshake
                 (channel, BinaryNodeStateService.SERVICE_NAME);
             /* Send a NodeState request to the node. */

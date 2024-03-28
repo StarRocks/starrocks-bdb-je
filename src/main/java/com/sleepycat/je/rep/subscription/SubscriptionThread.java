@@ -53,6 +53,8 @@ import com.sleepycat.je.utilint.TestHook;
 import com.sleepycat.je.utilint.TestHookExecute;
 import com.sleepycat.je.utilint.VLSN;
 
+import static com.sleepycat.je.rep.impl.RepParams.BIND_INADDR_ANY;
+
 /**
  * Main thread created by Subscription to stream log entries from feeder
  */
@@ -604,7 +606,7 @@ class SubscriptionThread extends StoppableThread {
                 repImpl.getChannelFactory()
                        .connect(config.getInetSocketAddress(),
                                 localAddr,
-                                connectOpts);
+                                connectOpts.setBindAnyLocalAddr(repImpl.getConfigManager().getBoolean(BIND_INADDR_ANY)));
 
             ServiceDispatcher.doServiceHandshake(channel,
                                                  FeederManager.FEEDER_SERVICE,

@@ -13,6 +13,7 @@
 
 package com.sleepycat.je.rep.impl.networkRestore;
 
+import static com.sleepycat.je.rep.impl.RepParams.BIND_INADDR_ANY;
 import static com.sleepycat.je.rep.impl.networkRestore.NetworkBackupStatDefinition.BACKUP_FILE_COUNT;
 import static com.sleepycat.je.rep.impl.networkRestore.NetworkBackupStatDefinition.DISPOSED_COUNT;
 import static com.sleepycat.je.rep.impl.networkRestore.NetworkBackupStatDefinition.EXPECTED_BYTES;
@@ -338,7 +339,8 @@ public class NetworkBackup {
                         setTcpNoDelay(true).
                         setReceiveBufferSize(receiveBufferSize).
                         setOpenTimeout(SOCKET_TIMEOUT_MS).
-                        setReadTimeout(SOCKET_TIMEOUT_MS));
+                        setReadTimeout(SOCKET_TIMEOUT_MS).
+                        setBindAnyLocalAddr(repImpl == null || repImpl.getConfigManager().getBoolean(BIND_INADDR_ANY)));
             ServiceDispatcher.doServiceHandshake
                 (channel, FeederManager.FEEDER_SERVICE);
 
