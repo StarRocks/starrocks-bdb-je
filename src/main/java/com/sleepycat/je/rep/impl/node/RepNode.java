@@ -17,6 +17,7 @@ import static com.sleepycat.je.rep.ReplicatedEnvironment.State.DETACHED;
 import static com.sleepycat.je.rep.ReplicatedEnvironment.State.MASTER;
 import static com.sleepycat.je.rep.ReplicatedEnvironment.State.REPLICA;
 import static com.sleepycat.je.rep.ReplicatedEnvironment.State.UNKNOWN;
+import static com.sleepycat.je.rep.impl.RepParams.BIND_INADDR_ANY;
 import static com.sleepycat.je.rep.impl.RepParams.DBTREE_CACHE_CLEAR_COUNT;
 import static com.sleepycat.je.rep.impl.RepParams.ENV_CONSISTENCY_TIMEOUT;
 import static com.sleepycat.je.rep.impl.RepParams.GROUP_NAME;
@@ -1463,7 +1464,8 @@ public class RepNode extends StoppableThread {
                         new ConnectOptions().
                         setTcpNoDelay(true).
                         setOpenTimeout(5000).
-                        setReadTimeout(5000));
+                        setReadTimeout(5000).
+                        setBindAnyLocalAddr(repImpl.getConfigManager().getBoolean(BIND_INADDR_ANY)));
             ServiceDispatcher.doServiceHandshake
                 (channel, BinaryNodeStateService.SERVICE_NAME);
 

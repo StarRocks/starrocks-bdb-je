@@ -41,6 +41,7 @@ public interface DataChannelFactory {
         private int readTimeout = 0;
         private boolean blocking = true;
         private boolean reuseAddr = false;
+        private boolean bindAnyLocalAddr = true;
 
         /**
          * Creates a base set of connection options. The default values
@@ -52,6 +53,7 @@ public interface DataChannelFactory {
          *   readTimeout = 0
          *   blocking = true
          *   reuseAddr = false
+         *   bindAnyLocalAddr = true
          * </pre>
          */
         public ConnectOptions() {
@@ -180,6 +182,15 @@ public interface DataChannelFactory {
          */
         public final boolean getReuseAddr() {
             return this.reuseAddr;
+        }
+
+        public ConnectOptions setBindAnyLocalAddr(boolean bindAnyLocalAddr) {
+            this.bindAnyLocalAddr = bindAnyLocalAddr;
+            return this;
+        }
+
+        public final boolean getBindAnyLocalAddr() {
+            return bindAnyLocalAddr;
         }
 
         /**

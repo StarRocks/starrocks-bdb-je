@@ -491,7 +491,8 @@ public class RepUtils {
         socket.setTcpNoDelay(connectOpts.getTcpNoDelay());
         socket.setSoTimeout(connectOpts.getReadTimeout());
         socket.setReuseAddress(connectOpts.getReuseAddr());
-        socket.bind(localAddr);
+        InetSocketAddress bindAddr = connectOpts.getBindAnyLocalAddr() ? null : localAddr;
+        socket.bind(bindAddr);
 
         if (blocking) {
             socket.connect(addr, connectOpts.getOpenTimeout());

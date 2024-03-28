@@ -47,6 +47,8 @@ import com.sleepycat.je.rep.utilint.ServiceDispatcher.ServiceConnectFailedExcept
 import com.sleepycat.je.utilint.LoggerUtils;
 import com.sleepycat.je.utilint.TestHook;
 
+import static com.sleepycat.je.rep.impl.RepParams.BIND_INADDR_ANY;
+
 /**
  * {@literal
  * TextProtocol provides the support for implementing simple low performance
@@ -1041,7 +1043,8 @@ public abstract class TextProtocol {
                         setOpenTimeout(openTimeoutMs).
                         setReadTimeout(readTimeoutMs).
                         setBlocking(true).
-                        setReuseAddr(true));
+                        setReuseAddr(true).
+                        setBindAnyLocalAddr(repImpl == null || repImpl.getConfigManager().getBoolean(BIND_INADDR_ANY)));
 
                 ServiceDispatcher.doServiceHandshake(dataChannel,
                                                      serviceName);
