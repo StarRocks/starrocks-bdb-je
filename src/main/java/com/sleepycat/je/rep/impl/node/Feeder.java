@@ -1755,7 +1755,7 @@ final public class Feeder {
     }
 
     /**
-     * Check the whether the channel is available by monitoring the change of lastHeartbeatTime,
+     * Check whether the channel is available by monitoring the change of lastHeartbeatTime,
      * the loop will break when:
      * 1. feeder is shutdown
      * 2. channel is not open
@@ -1770,7 +1770,7 @@ final public class Feeder {
 
         long baseTime = this.lastHeartbeatTime;
         long startNs = System.nanoTime();
-        long timeoutNs = repNode.getConfigManager().getDuration(RepParams.FEEDER_TIMEOUT) * 1000000;
+        long timeoutNs = repNode.getConfigManager().getDuration(RepParams.FEEDER_TIMEOUT) * 1000000L;
         while (System.nanoTime() - startNs < timeoutNs) {
             if (shutdown.get()
                     || !feederReplicaChannel.isOpen()) {
