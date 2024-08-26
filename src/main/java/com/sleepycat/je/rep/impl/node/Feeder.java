@@ -1777,7 +1777,7 @@ final public class Feeder {
                 return false;
             }
 
-            if (baseTime != lastHeartbeatTime) {
+            if (baseTime < lastHeartbeatTime) {
                 return true;
             }
 
