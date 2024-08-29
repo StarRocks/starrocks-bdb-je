@@ -1763,11 +1763,6 @@ final public class Feeder {
      * 4. FEEDER_TIMEOUT reached
      */
     public boolean isChannelAvailable() {
-        if (shutdown.get()
-                || !feederReplicaChannel.isOpen()) {
-            return false;
-        }
-
         long baseTime = this.lastHeartbeatTime;
         long startNs = System.nanoTime();
         long timeoutNs = repNode.getConfigManager().getDuration(RepParams.FEEDER_TIMEOUT) * 1000000L;
