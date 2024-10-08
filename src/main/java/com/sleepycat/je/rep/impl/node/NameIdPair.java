@@ -57,7 +57,7 @@ public class NameIdPair implements Serializable {
     public final static int NULL_NODE_ID = -1;
 
     /* The node ID used to bypass group membership checks. */
-    public static final int NOCHECK_NODE_ID = Integer.MIN_VALUE;
+    public static final int NOCHECK_NODE_ID = 0x80000000;
 
     public static final NameIdPair NULL =
         new ReadOnlyNameIdPair("NullNode", NameIdPair.NULL_NODE_ID);
