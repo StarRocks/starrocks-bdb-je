@@ -32,7 +32,7 @@ jdk_version() {
 
 JAVA_VERSION=$(jdk_version)
 if [[ "$JAVA_VERSION" -ne "11" ]]; then
-    echo "must use jdk8 to compile"
+    echo "must use jdk11 to compile"
     exit 1
 fi
 
