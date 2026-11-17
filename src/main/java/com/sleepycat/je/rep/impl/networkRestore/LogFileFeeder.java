@@ -413,7 +413,31 @@ public class LogFileFeeder extends StoppableThread {
                 }
                 verifier.verify(array, off, lim);
                 messageDigest.update(array, off, lim);
-                transmitBytes += namedChannel.getChannel().write(buffer);
+
+                /*
+                 * Even though the channel is a blocking one, a write can
+                 * return before the whole buffer has been written: when the
+                 * peer fails in the middle of the write, or when the thread
+                 * gets a signal while it waits for space in the socket send
+                 * buffer, in which case the write returns the bytes it has
+                 * transferred so far. So, as BinaryProtocol.flushBuffer does,
+                 * keep writing until the buffer is empty or the write ends
+                 * with an IOException. Going on to the next block instead
+                 * would drop the rest of this one: the client would read a
+                 * short file, and the length check below would fail.
+                 */
+                while (buffer.hasRemaining()) {
+                    final int bytes = namedChannel.getChannel().write(buffer);
+                    transmitBytes += bytes;
+                    if (bytes == 0) {
+
+                        /*
+                         * Should not happen on a blocking channel; yield
+                         * control if no progress is being made.
+                         */
+                        Thread.yield();
+                    }
+                }
             }
 
             if (transmitBytes != length) {
@@ -421,7 +445,15 @@ public class LogFileFeeder extends StoppableThread {
                              "number of bytes that were transmitted:" +
                              transmitBytes;
 
-                throw new IllegalStateException(msg);
+                /*
+                 * Fail this transfer only: the client did not get the file
+                 * it asked for and will retry. An IOException ends this
+                 * feeder and closes its channel; any other exception thrown
+                 * from here would be treated as an uncaught exception by
+                 * run() and invalidate the whole environment, which takes
+                 * the node down for a problem of one network restore client.
+                 */
+                throw new IOException(msg);
             }
 
             final String msg =
